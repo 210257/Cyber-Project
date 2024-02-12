@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Shylan Extension",
+  "version": "1.0",
+  "description": "Cheatsheets for XSS, SQLi, File Inclusion and Reverse Shell with feature of Fetching and listing hyperlinks, sources, and scripts from a website.",
+  "permissions": [
+    "activeTab", 
+    "storage",
+    "webNavigation"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "action": {
+    "default_icon": "icon16.png",
+    "default_popup": "index.html"
+  },
+  "icons": {
+    "48": "icon48.png"
+  }
+}
+
